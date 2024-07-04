@@ -1,7 +1,7 @@
 import { Router } from "express";
 import productRoutes from "../module/product/product.route";
 
-const allRoutes = Router();
+const allRoutes: Router = Router();
 
 const appRoutes = [
   {

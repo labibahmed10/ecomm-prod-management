@@ -64,12 +64,6 @@ const ProductSchema: Schema = new Schema<IProduct>(
     },
     tags: {
       type: [String],
-      validate: {
-        validator: function (v: string | string[]) {
-          return Array.isArray(v) && v.length > 0;
-        },
-        message: (props) => `tags must be a non-empty array of strings`,
-      },
       required: [true, "At least one tag is required"],
     },
     variants: [ProductVariantSchema],

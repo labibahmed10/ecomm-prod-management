@@ -10,7 +10,7 @@ const ProductInventorySchema = z.object({
   inStock: z.boolean(),
 });
 
-const ProductSchema = z.object({
+const ProductCreateSchema = z.object({
   body: z.object({
     name: z.string().min(1, "Product name is required").max(50, "Product name cannot be more than 50 characters").trim(),
     description: z.string().min(1, "Product description is required").max(600, "Product description cannot be more than 600 characters").trim(),
@@ -27,3 +27,7 @@ const ProductSchema = z.object({
     inventory: ProductInventorySchema,
   }),
 });
+
+export const productsValidations = {
+  ProductCreateSchema,
+};
