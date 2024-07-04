@@ -10,6 +10,13 @@ const getAllProducts = catchAsyncFunc(async (req, res) => {
   sendResponse(res, httpStatus.OK, "Products fetched successfully!", result);
 });
 
+const getSingleProduct = catchAsyncFunc(async (req, res) => {
+  const { productId } = req.params;
+  const result = await productServices.getSingleProductFromDB(productId);
+
+  sendResponse(res, httpStatus.OK, "Product fetched successfully!", result);
+});
+
 const createProduct = catchAsyncFunc(async (req, res) => {
   const product: IProduct = req.body;
   const { _id, ...result } = await productServices.createProductIntoDB(product);
@@ -19,5 +26,6 @@ const createProduct = catchAsyncFunc(async (req, res) => {
 
 export const productcontroller = {
   getAllProducts,
+  getSingleProduct,
   createProduct,
 };
