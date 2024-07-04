@@ -4,6 +4,8 @@ import validateRequest from "../../middlewares/validateRequest";
 import { productsValidations } from "./product.validation";
 const productRoutes: Router = Router();
 
+productRoutes.get("/products", productcontroller.getAllProducts);
+
 productRoutes.post("/products", validateRequest(productsValidations.ProductCreateSchema), productcontroller.createProduct);
 
 export default productRoutes;
