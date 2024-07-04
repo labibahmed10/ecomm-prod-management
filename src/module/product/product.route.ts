@@ -8,5 +8,8 @@ productRoutes.get("/products", productcontroller.getAllProducts);
 
 productRoutes.post("/products", validateRequest(productsValidations.ProductCreateSchema), productcontroller.createProduct);
 
+productRoutes.put("/products/:productId", productcontroller.updateSingleProduct);
+
 productRoutes.get("/products/:productId", productcontroller.getSingleProduct);
+
 export default productRoutes;
