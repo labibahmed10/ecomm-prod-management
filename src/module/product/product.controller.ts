@@ -28,9 +28,17 @@ const updateSingleProduct = catchAsyncFunc(async (req, res) => {
   const { productId } = req.params;
   const updatingData: Partial<IProduct> = req.body;
 
-  const result = await productServices.updateSingleProductIntoDB(productId, updatingData);
+  const { _id, ...result } = await productServices.updateSingleProductIntoDB(productId, updatingData);
 
   sendResponse(res, httpStatus.OK, "Product updated successfully!", result);
+});
+
+const deleteSingleProduct = catchAsyncFunc(async (req, res) => {
+  const { productId } = req.params;
+
+  const result = await productServices.deleteSingleProductFromDB(productId);
+
+  sendResponse(res, httpStatus.OK, "Product deleted successfully!", result.deletedCount > 0 && null);
 });
 
 export const productcontroller = {
@@ -38,4 +46,5 @@ export const productcontroller = {
   getSingleProduct,
   createProduct,
   updateSingleProduct,
+  deleteSingleProduct,
 };

@@ -82,6 +82,11 @@ const updateSingleProductIntoDB = async (productId: string, data: Partial<IProdu
     }
   );
 
+  return result!.toJSON();
+};
+
+const deleteSingleProductFromDB = async (productId: string) => {
+  const result = await ProductModel.deleteOne({ _id: productId });
   return result;
 };
 
@@ -90,4 +95,5 @@ export const productServices = {
   getSingleProductFromDB,
   createProductIntoDB,
   updateSingleProductIntoDB,
+  deleteSingleProductFromDB,
 };

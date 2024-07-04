@@ -12,4 +12,6 @@ productRoutes.put("/products/:productId", productcontroller.updateSingleProduct)
 
 productRoutes.get("/products/:productId", productcontroller.getSingleProduct);
 
+productRoutes.delete("/products/:productId", productcontroller.deleteSingleProduct);
+
 export default productRoutes;
