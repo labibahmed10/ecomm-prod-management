@@ -6,7 +6,7 @@ import { productServices } from "./product.services";
 
 const createProduct = catchAsyncFunc(async (req, res) => {
   const product: IProduct = req.body;
-  const result = await productServices.createProductIntoDB(product);
+  const { _id, ...result } = await productServices.createProductIntoDB(product);
 
   sendResponse(res, httpStatus.CREATED, "Product created successfully!", result);
 });
