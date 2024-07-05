@@ -3,7 +3,13 @@ import { IProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 
 const getAllProductsFromDB = async (query: FilterQuery<IProduct>) => {
-  const result = await ProductModel.find(query);
+  const { searchTerm } = query;
+  const queryVal = searchTerm
+    ? {
+        name: { $regex: searchTerm, $options: "i" },
+      }
+    : {};
+  const result = await ProductModel.find(queryVal).select("-_id");
   return result;
 };
 

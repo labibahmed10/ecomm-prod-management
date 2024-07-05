@@ -5,14 +5,11 @@ import { IProduct } from "./product.interface";
 import { productServices } from "./product.services";
 
 const getAllProducts = catchAsyncFunc(async (req, res) => {
-  const { searchTerm } = req.query;
-  const query = searchTerm
-    ? {
-        name: { $regex: searchTerm, $options: "i" },
-      }
-    : {};
-  const result = await productServices.getAllProductsFromDB(query);
-  const message = searchTerm ? `Products matching search term '${searchTerm}' searched successfully!` : "Products fetched successfully!";
+  const result = await productServices.getAllProductsFromDB(req.query);
+  const message =
+    Object.entries(req.query).length > 0
+      ? `Products matching search term '${req.query?.searchTerm}' searched successfully!`
+      : "Products fetched successfully!";
   sendResponse(res, httpStatus.OK, message, result);
 });
 

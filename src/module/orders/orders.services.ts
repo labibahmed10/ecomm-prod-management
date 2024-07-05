@@ -6,7 +6,7 @@ const getAllOrdersFromDB = async (query: FilterQuery<IOrder>) => {
   const { email } = query;
   const queryValue = email ? { email: { $eq: email } } : {};
 
-  const result = await OrderModel.find(queryValue);
+  const result = await OrderModel.find(queryValue).select("-_id");
   return result;
 };
 
