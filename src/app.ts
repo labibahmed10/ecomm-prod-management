@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, urlencoded } from "express";
 import cors from "cors";
 import allRoutes from "./routes/allRoutes";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
 const app: Application = express();
 
 // parser
@@ -18,5 +19,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Welcome to product management service",
   });
 });
+
+app.use(globalErrorHandler);
 
 export default app;

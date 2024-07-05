@@ -6,11 +6,11 @@ const ProductVariantSchema = z.object({
 });
 
 const ProductInventorySchema = z.object({
-  quantity: z.number().int().min(0, "Quantity cannot be negative").positive("Inventory quantity is required"),
+  quantity: z.number().int().min(1, "Quantity cannot be negative").positive("Inventory quantity is required"),
   inStock: z.boolean(),
 });
 
-const ProductCreateSchema = z.object({
+const productCreateSchema = z.object({
   body: z.object({
     name: z.string().min(1, "Product name is required").max(50, "Product name cannot be more than 50 characters").trim(),
     description: z.string().min(1, "Product description is required").max(600, "Product description cannot be more than 600 characters").trim(),
@@ -28,6 +28,31 @@ const ProductCreateSchema = z.object({
   }),
 });
 
+const productUpdateSchema = z.object({
+  body: z.object({
+    name: z.string().min(1, "Product name is required").max(50, "Product name cannot be more than 50 characters").trim().optional(),
+    description: z
+      .string()
+      .min(1, "Product description is required")
+      .max(600, "Product description cannot be more than 600 characters")
+      .trim()
+      .optional(),
+    price: z.number().min(0, "Price cannot be negative").positive("Product price is required").optional(),
+    category: z.string().min(1, "Product category is required").max(50, "Category cannot be more than 50 characters").trim().optional(),
+    tags: z
+      .string()
+      .min(1, "Tags cannot be empty")
+      .max(20, "Tag cannot be more than 20 characters")
+      .trim()
+      .array()
+      .nonempty("At least one tag is required")
+      .optional(),
+    variants: z.array(ProductVariantSchema).optional(),
+    inventory: ProductInventorySchema.partial().optional(),
+  }),
+});
+
 export const productsValidations = {
-  ProductCreateSchema,
+  productCreateSchema,
+  productUpdateSchema,
 };

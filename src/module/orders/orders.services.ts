@@ -1,6 +1,7 @@
 import { FilterQuery } from "mongoose";
 import { IOrder } from "./orders.interface";
 import { OrderModel } from "./orders.model";
+import { ProductModel } from "../product/product.model";
 
 const getAllOrdersFromDB = async (query: FilterQuery<IOrder>) => {
   const { email } = query;
@@ -11,6 +12,9 @@ const getAllOrdersFromDB = async (query: FilterQuery<IOrder>) => {
 };
 
 const createOrdersIntoDB = async (product: IOrder) => {
+  const availableQuantity = await ProductModel.findOne({ _id: product.productId }).select("-_id inventory");
+
+  console.log(availableQuantity);
   const result = await OrderModel.create(product);
   return result.toJSON();
 };

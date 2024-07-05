@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IProduct, IProductInventory, IProductVariant } from "./product.interface";
+import { IProduct, IProductInventory, ProductStaticMethods, IProductVariant } from "./product.interface";
 
 const ProductVariantSchema: Schema = new Schema<IProductVariant>(
   {
@@ -37,7 +37,7 @@ const ProductInventorySchema: Schema = new Schema<IProductInventory>(
   { _id: false, versionKey: false }
 );
 
-const ProductSchema: Schema = new Schema<IProduct>(
+const productSchema = new Schema<IProduct, ProductStaticMethods>(
   {
     name: {
       type: String,
@@ -75,4 +75,11 @@ const ProductSchema: Schema = new Schema<IProduct>(
   { timestamps: false, versionKey: false }
 );
 
-export const ProductModel = model<IProduct>("Product", ProductSchema);
+productSchema.statics.findProductById = async function (id: string) {
+  const result = await ProductModel.findOne({
+    _id: id,
+  });
+  return result;
+};
+
+export const ProductModel = model<IProduct, ProductStaticMethods>("Product", productSchema);

@@ -6,9 +6,9 @@ const productRoutes: Router = Router();
 
 productRoutes.get("/products", productcontroller.getAllProducts);
 
-productRoutes.post("/products", validateRequest(productsValidations.ProductCreateSchema), productcontroller.createProduct);
+productRoutes.post("/products", validateRequest(productsValidations.productCreateSchema), productcontroller.createProduct);
 
-productRoutes.put("/products/:productId", productcontroller.updateSingleProduct);
+productRoutes.put("/products/:productId", validateRequest(productsValidations.productUpdateSchema), productcontroller.updateSingleProduct);
 
 productRoutes.get("/products/:productId", productcontroller.getSingleProduct);
 
