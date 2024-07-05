@@ -5,9 +5,15 @@ import { IProduct } from "./product.interface";
 import { productServices } from "./product.services";
 
 const getAllProducts = catchAsyncFunc(async (req, res) => {
-  const result = await productServices.getAllProductsFromDB();
-
-  sendResponse(res, httpStatus.OK, "Products fetched successfully!", result);
+  const { searchTerm } = req.query;
+  const query = searchTerm
+    ? {
+        name: { $regex: searchTerm, $options: "i" },
+      }
+    : {};
+  const result = await productServices.getAllProductsFromDB(query);
+  const message = searchTerm ? `Products matching search term '${searchTerm}' searched successfully!` : "Products fetched successfully!";
+  sendResponse(res, httpStatus.OK, message, result);
 });
 
 const getSingleProduct = catchAsyncFunc(async (req, res) => {
@@ -35,10 +41,9 @@ const updateSingleProduct = catchAsyncFunc(async (req, res) => {
 
 const deleteSingleProduct = catchAsyncFunc(async (req, res) => {
   const { productId } = req.params;
-
   const result = await productServices.deleteSingleProductFromDB(productId);
 
-  sendResponse(res, httpStatus.OK, "Product deleted successfully!", result.deletedCount > 0 && null);
+  sendResponse(res, httpStatus.OK, "Product deleted successfully!", result.deletedCount > 0 ? null : "");
 });
 
 export const productcontroller = {

@@ -1,8 +1,9 @@
+import { FilterQuery } from "mongoose";
 import { IProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 
-const getAllProductsFromDB = async () => {
-  const result = await ProductModel.find({});
+const getAllProductsFromDB = async (query: FilterQuery<IProduct>) => {
+  const result = await ProductModel.find(query);
   return result;
 };
 
