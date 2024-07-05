@@ -7,7 +7,6 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let success: boolean = false;
   let message: string = "Something went wrong";
 
-  console.log(error.message);
   if (error instanceof AppError) {
     statusCode = error.statusCode;
     message = error.message;
