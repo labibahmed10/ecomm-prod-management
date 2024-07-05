@@ -20,7 +20,7 @@ const createOrders = catchAsyncFunc(async (req, res) => {
   const product: IOrder = req.body;
   const { _id, ...result } = await productServices.createProductIntoDB(product);
 
-  sendResponse(res, httpStatus.CREATED, "Product created successfully!", result);
+  sendResponse(res, httpStatus.CREATED, "Order created successfully!", result);
 });
 
 export const ordersController = {
