@@ -11,6 +11,8 @@ export const handleZodError = (error: ZodError) => {
       return (message = `${issue.path[issue.path.length - 1]} is required.`);
     } else if (issue?.expected !== issue?.received) {
       return (message = `${issue.path[issue.path.length - 1]} is not valid type.`);
+    } else if (issue.code === "too_small") {
+      return issue.message;
     }
   });
 
