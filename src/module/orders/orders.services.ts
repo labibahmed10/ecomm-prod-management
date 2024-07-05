@@ -8,8 +8,11 @@ import AppError from "../../errors/AppError";
 const getAllOrdersFromDB = async (query: FilterQuery<IOrder>) => {
   const { email } = query;
   const queryValue = email ? { email: { $eq: email } } : {};
-
   const result = await OrderModel.find(queryValue).select("-_id");
+
+  if (!(result.length > 0)) {
+    throw new AppError(httpStatus.NOT_FOUND, "Order not found");
+  }
   return result;
 };
 
