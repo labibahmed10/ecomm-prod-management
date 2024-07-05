@@ -11,12 +11,21 @@ const getAllProductsFromDB = async (query: FilterQuery<IProduct>) => {
         name: { $regex: searchTerm, $options: "i" },
       }
     : {};
+
   const result = await ProductModel.find(queryVal).select("-_id");
+  if (!(result.length > 0)) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found");
+  }
+
   return result;
 };
 
 const getSingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findOne({ _id: id }).select("-_id");
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product could not found of this Id");
+  }
+
   return result;
 };
 
@@ -36,8 +45,6 @@ const updateSingleProductIntoDB = async (productId: string, data: Partial<IProdu
   const updateObject: { [key: string]: any } = {
     ...restQuery,
   };
-
-  console.log(updateObject, tags, inventory, variants);
 
   if (Object.entries(updateObject).length <= 0 && (!tags || tags!.length <= 0) && (!variants || variants!.length <= 0) && !inventory) {
     throw new AppError(httpStatus.NOT_FOUND, "Cannot update the product");
@@ -109,6 +116,11 @@ const updateSingleProductIntoDB = async (productId: string, data: Partial<IProdu
 
 const deleteSingleProductFromDB = async (productId: string) => {
   const result = await ProductModel.deleteOne({ _id: productId });
+
+  if (result.deletedCount <= 0) {
+    throw new AppError(httpStatus.NOT_FOUND, "Can not delete product of this Id");
+  }
+
   return result;
 };
 
