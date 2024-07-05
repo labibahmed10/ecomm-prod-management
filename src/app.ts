@@ -2,6 +2,7 @@ import express, { Application, Request, Response, urlencoded } from "express";
 import cors from "cors";
 import allRoutes from "./routes/allRoutes";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
+import notFoundRoutes from "./middlewares/notFoundRoutes";
 const app: Application = express();
 
 // parser
@@ -21,5 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(globalErrorHandler);
+
+app.all("*", notFoundRoutes);
 
 export default app;
